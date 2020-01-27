@@ -1,7 +1,7 @@
 import React from "react";
-import MainNavigator from './navigations';
-
 import { createAppContainer } from 'react-navigation';
+
+import MainNavigator from './navigations';
 
 const App = createAppContainer(MainNavigator);
 
