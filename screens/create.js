@@ -60,7 +60,7 @@ export default class Create extends Component {
           <MapView
             style={{ alignSelf: "stretch", height: 400 }}
             region={this.state.mapRegion}
-            onRegionChange={this.handleMapRegionChange}
+            onRegionChangeComplete={this.handleMapRegionChange}
           />
         )}
 
