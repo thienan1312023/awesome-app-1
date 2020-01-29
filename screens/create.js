@@ -141,13 +141,20 @@ export default class Create extends Component {
           <Text>Location: {this.state.locationResult}</Text>
         </View>
 
-        <Modal isVisible={this.state.isModalVisible} >
+        <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modal}>
-            <Text>{Name}</Text>
-            <Text>{FormattedAddress}</Text>
-            <Text>{FormattedPhoneNumber}</Text>
-            <Text>{Rating}</Text>
-            <Button title="Hide modal" onPress={this.toggleModal} />
+            <Text style={styles.headerModal}>Location Detail</Text>
+            <Text>Name: {Name}</Text>
+            <Text>Address: {FormattedAddress}</Text>
+            <Text>Phone Number: {FormattedPhoneNumber}</Text>
+            <Text>Rating: {Rating}</Text>
+            <View style={{paddingTop: 15, paddingBottom: 10}}>
+              <Button title="Hide modal" onPress={this.toggleModal} />
+            </View>
+
+            <View>
+              <Button title="Add To List" onPress={this.toggleModal} />
+            </View>
           </View>
         </Modal>
       </View>
@@ -156,6 +163,12 @@ export default class Create extends Component {
 }
 
 const styles = StyleSheet.create({
+  headerModal: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingBottom: 15
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -181,10 +194,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF88"
   },
   modal: {
-    display: 'flex',
+    display: "flex",
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
-    color: 'black',
+    color: "black",
     padding: 10,
     minHeight: 200
   }
