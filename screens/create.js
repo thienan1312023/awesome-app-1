@@ -141,7 +141,7 @@ export default class Create extends Component {
           <Text>Location: {this.state.locationResult}</Text>
         </View>
 
-        <Modal isVisible={this.state.isModalVisible}>
+        <Modal isVisible={this.state.isModalVisible} >
           <View style={styles.modal}>
             <Text>{Name}</Text>
             <Text>{FormattedAddress}</Text>
@@ -181,10 +181,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF88"
   },
   modal: {
-    flex: 1,
+    display: 'flex',
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
-    height: 50,
-    padding: 5
+    color: 'black',
+    padding: 10,
+    minHeight: 200
   }
 });
