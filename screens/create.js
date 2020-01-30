@@ -6,14 +6,20 @@ import {
   ActivityIndicator,
   Button
 } from "react-native";
+
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import Modal from "react-native-modal";
-import { POI_Detail_URL } from "../constants/key";
 
-export default class Create extends Component {
+import { observable, action } from "mobx";
+import { observer, inject } from "mobx-react";
+
+import { POI_Detail_URL } from "../constant s/key";
+import { selectPOIListStore } from "../selectors/todoListStoreSelectors";
+
+class Create extends Component {
   state = {
     mapRegion: null,
     hasLocationPermissions: false,
@@ -28,6 +34,12 @@ export default class Create extends Component {
     }
   };
 
+  // @observable newPOIItem = {
+  //   name: "",
+  //   formatted_address: "",
+  //   rating: 0,
+  //   formatted_phone_number: ""
+  // };
   componentDidMount() {
     this.getLocationAsync();
   }
@@ -39,6 +51,22 @@ export default class Create extends Component {
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
+
+  // @action
+  // handleOnInputChange(e) {
+  //   this.newTodoTitle = e.target.value;
+  // }
+
+  // @action
+  // handleOnSubmitTodo() {
+  //   this.props.todoListStore.addTodoItem(this.newTodoTitle);
+  //   this.newTodoTitle = "";
+  // }
+
+  // @action
+  // handleOnDelete(id) {
+  //   this.props.todoListStore.removeTodoItem(id);
+  // }
 
   async getLocationAsync() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -64,45 +92,35 @@ export default class Create extends Component {
     });
   }
 
-  handleOnPoiClick = event => {
+  @action
+  async handleOnPoiClick = event => {
     const { placeId } = event.nativeEvent;
     const queryURL = POI_Detail_URL.replace("place_id_param", placeId);
+    const { POIListStore } = this.props;
+    const response = await fetch(queryURL);
+    const POIData = await response.json();
+    this.setState({
+      isLoading: false,
+      isModalVisible: true,
+      POIDetail: {
+        ...POIData
+      }
+    });
 
-    return fetch(queryURL)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          isLoading: false,
-          isModalVisible: true,
-          POIDetail: {
-            ...responseJson.result
-          }
-        });
-      })
-      .catch(error => {
-        this.setState({ isLoading: false });
-        console.error(error);
-      });
+    const {
+      formatted_address: FormattedAddress,
+      formatted_phone_number: FormattedPhoneNumber,
+      name: Name,
+      rating: Rating
+    } = POIData;
+    POIListStore.addPOIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating);
   };
-  // handleTapOnMap = () => {
-  //   this.setState({ isLoading: true });
-  //   const { latitude, longitude } = this.state.mapRegion;
-  //   console.log(latitude + " + " + longitude);
-  //   const queryURL = `${GeoCoding_URL +
-  //     latitude}+${longitude}&key=${API_CAGE_DATA}`;
 
-  //   return fetch(queryURL)
-  //     .then(response => response.json())
-  //     .then(responseJson => {
-  //       this.setState({ isLoading: false, isModalVisible: true });
-  //     })
-  //     .catch(error => {
-  //       this.setState({ isLoading: false });
-  //       console.error(error);
-  //     });
-  // };
   render() {
     const {
+      locationResult,
+      mapRegion,
+      hasLocationPermissions,
       isLoading,
       POIDetail: {
         formatted_address: FormattedAddress,
@@ -122,18 +140,17 @@ export default class Create extends Component {
 
         <View>
           <Text style={styles.paragraph}>Pan, zoom, and tap on the map!</Text>
-          {this.state.locationResult === null ? (
+          {locationResult === null ? (
             <Text>Finding your current location...</Text>
-          ) : this.state.hasLocationPermissions === false ? (
+          ) : hasLocationPermissions === false ? (
             <Text>Location permissions are not granted.</Text>
-          ) : this.state.mapRegion === null ? (
+          ) : mapRegion === null ? (
             <Text>Map region doesn't exist.</Text>
           ) : (
             <MapView
               style={{ alignSelf: "stretch", height: 400 }}
-              region={this.state.mapRegion}
+              region={mapRegion}
               onRegionChangeComplete={this.handleMapRegionChange}
-              // onPress={this.handleTapOnMap}
               onPoiClick={event => this.handleOnPoiClick(event)}
             />
           )}
@@ -148,7 +165,7 @@ export default class Create extends Component {
             <Text>Address: {FormattedAddress}</Text>
             <Text>Phone Number: {FormattedPhoneNumber}</Text>
             <Text>Rating: {Rating}</Text>
-            <View style={{paddingTop: 15, paddingBottom: 10}}>
+            <View style={{ paddingTop: 15, paddingBottom: 10 }}>
               <Button title="Hide modal" onPress={this.toggleModal} />
             </View>
 
@@ -161,6 +178,13 @@ export default class Create extends Component {
     );
   }
 }
+
+export const CreateScreen = inject(selectPOIListStore)(observer(Create));
+TodoListContainer.wrappedComponent.propTypes = {
+  POIListStore: PropTypes.object.isRequired
+};
+
+export default TodoListContainer;
 
 const styles = StyleSheet.create({
   headerModal: {

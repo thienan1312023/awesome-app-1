@@ -1,8 +1,21 @@
 import React from "react";
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer } from "react-navigation";
+import POIListStore from "../stores/POIListStore";
 
-import MainNavigator from './navigations';
+import MainNavigator from "./navigations";
 
-const App = createAppContainer(MainNavigator);
+const AppNavigation = createAppContainer(MainNavigator);
 
-export default App;
+export default class App extends React.Component {
+  constructor() {
+    super();
+    this.store = new POIListStore();
+  }
+  render() {
+    return (
+      <Provider POIListStore={this.store}>
+        <AppNavigation />
+      </Provider>
+    );
+  }
+}
