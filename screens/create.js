@@ -11,7 +11,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import Modal from "react-native-modal";
-import { GeoCoding_URL, API_CAGE_DATA, POI_Detail_URL } from "../constants/key";
+import { POI_Detail_URL } from "../constants/key";
 
 export default class Create extends Component {
   state = {
