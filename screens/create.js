@@ -15,7 +15,7 @@ import Modal from "react-native-modal";
 
 import { observable, action } from "mobx";
 import { observer, inject } from "mobx-react";
-
+import Item from '../components/Item';
 import { POI_Detail_URL } from "../constant s/key";
 import { selectPOIListStore } from "../selectors/todoListStoreSelectors";
 
@@ -161,10 +161,11 @@ class Create extends Component {
         <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modal}>
             <Text style={styles.headerModal}>Location Detail</Text>
-            <Text>Name: {Name}</Text>
-            <Text>Address: {FormattedAddress}</Text>
-            <Text>Phone Number: {FormattedPhoneNumber}</Text>
-            <Text>Rating: {Rating}</Text>
+            <Item Name={Name}
+              FormattedAddress={FormattedAddress}
+              FormattedPhoneNumber={FormattedPhoneNumber}
+              Rating={Rating}
+            ></Item>
             <View style={{ paddingTop: 15, paddingBottom: 10 }}>
               <Button title="Hide modal" onPress={this.toggleModal} />
             </View>
