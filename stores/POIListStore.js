@@ -15,6 +15,7 @@ export class POIListStore {
 
   @action
   addPOIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating) {
+    console.log('addPOIItem', Name);
     if (Name && Name.trim().length > 0) {
       this.POIItems.push(
         new POIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating)

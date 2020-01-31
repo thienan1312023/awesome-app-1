@@ -4,13 +4,9 @@ import { observer, inject } from "mobx-react";
 import Item from "../components/Item";
 import { selectPOIListStore } from "../selectors/POIListStoreSelector";
 class List extends Component {
-  constructor(props) {
-    super(props)
-    console.log(props)
-    this.store = props.store.itemsStore
-  }
-  render(){
-    const {POIItems} = this.store;
+  render() {
+    const { POIListStore } = this.props;
+    const { POIItems } = POIListStore;
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -29,7 +25,6 @@ class List extends Component {
     );
   }
 }
-
 
 export default inject(selectPOIListStore)(observer(List));
 const styles = StyleSheet.create({

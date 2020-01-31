@@ -94,7 +94,7 @@ class Create extends Component {
       formatted_phone_number: FormattedPhoneNumber,
       name: Name,
       rating: Rating
-    } = POIData;
+    } = POIData.result;
     POIListStore.addPOIItem(
       Name,
       FormattedAddress,
