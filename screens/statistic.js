@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Constants } from 'expo';
 
-export default class App extends Component {
+export default class Statistic extends Component {
   render() {
     return (
       <View style={styles.container}>

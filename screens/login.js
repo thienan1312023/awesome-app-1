@@ -26,7 +26,8 @@ export default class LoginScreen extends Component {
     const { navigate } = this.props.navigation;
     const { _userName, _password } = mockLoginAuthen;
     if (username == _userName && password == _password) {
-      navigate("HomeScreen");
+      console.log('ss', navigate);
+      navigate("SignedIn");
     }
   }
 

@@ -1,12 +1,29 @@
 import React from "react";
-import { createStackNavigator } from 'react-navigation-stack';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 import { LoginScreen } from "../screens";
-import { HomeScreen } from "../screens";
+import DrawerNavigator from './sidebar';
 
-const MainNavigator = createStackNavigator({
-  LoginScreen: { screen: LoginScreen },
-  HomeScreen: { screen: HomeScreen },
-});
+const createRootNavigator = (signedIn = false) => {
+  return createAppContainer(createSwitchNavigator(
+    {
+      SignedIn: {
+        screen: DrawerNavigator
+      },
+      SignedOut: {
+        screen: LoginScreen
+      }
+    },
+    {
+      initialRouteName: signedIn ? "SignedIn" : "SignedOut"
+    }
+  ));
+};
 
-export default MainNavigator;
+// const MainNavigator = createStackNavigator({
+//   LoginScreen: { screen: LoginScreen },
+//   StatisticScreen: { screen: StatisticScreen },
+// });
+
+// export default MainNavigator;
+export default createRootNavigator;
