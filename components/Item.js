@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export const Item = ({ Name, FormattedAddress, FormattedPhoneNumber, Rating }) => {
+const Item = ({ Name, FormattedAddress, FormattedPhoneNumber, Rating }) => {
+    console.log('dddd',Name);
   return (
     <View style={styles.item}>
       <Text>Name: {Name}</Text>
@@ -12,6 +13,7 @@ export const Item = ({ Name, FormattedAddress, FormattedPhoneNumber, Rating }) =
   );
 }
 
+export default Item;
 const styles = StyleSheet.create({
   item: {
     backgroundColor: "#f9c2ff",

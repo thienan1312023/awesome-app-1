@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   Text,
   View,
@@ -32,7 +32,7 @@ class Create extends Component {
     isLoading: false,
     isModalVisible: false,
     POIDetail: {
-      name: "",
+      name: "ddd",
       formatted_address: "",
       rating: 0,
       formatted_phone_number: ""
@@ -85,7 +85,7 @@ class Create extends Component {
       isLoading: false,
       isModalVisible: true,
       POIDetail: {
-        ...POIData
+        ...POIData.result
       }
     });
 
