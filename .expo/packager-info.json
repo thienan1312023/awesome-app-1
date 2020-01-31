@@ -1,9 +1,9 @@
 {
-  "devToolsPort": 19002,
+  "devToolsPort": 19003,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 14184,
+  "packagerPort": 19004,
+  "packagerPid": 13724,
   "expoServerNgrokUrl": "https://dd-y8b.anonymous.awesome-app-1.exp.direct",
   "packagerNgrokUrl": "https://packager.dd-y8b.anonymous.awesome-app-1.exp.direct",
-  "ngrokPid": 22200
+  "ngrokPid": 22156
 }
