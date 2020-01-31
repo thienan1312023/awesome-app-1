@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -15,11 +16,15 @@ import Modal from "react-native-modal";
 
 import { observable, action } from "mobx";
 import { observer, inject } from "mobx-react";
-import Item from '../components/Item';
-import { POI_Detail_URL } from "../constant s/key";
-import { selectPOIListStore } from "../selectors/todoListStoreSelectors";
+import Item from "../components/Item";
+import { POI_Detail_URL } from "../constants/key";
+import { selectPOIListStore } from "../selectors/POIListStoreSelector";
 
 class Create extends Component {
+  constructor(props) {
+    super(props);
+    this.handleOnPoiClick = this.handleOnPoiClick.bind(this);
+  }
   state = {
     mapRegion: null,
     hasLocationPermissions: false,
@@ -34,12 +39,6 @@ class Create extends Component {
     }
   };
 
-  // @observable newPOIItem = {
-  //   name: "",
-  //   formatted_address: "",
-  //   rating: 0,
-  //   formatted_phone_number: ""
-  // };
   componentDidMount() {
     this.getLocationAsync();
   }
@@ -51,22 +50,6 @@ class Create extends Component {
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
-
-  // @action
-  // handleOnInputChange(e) {
-  //   this.newTodoTitle = e.target.value;
-  // }
-
-  // @action
-  // handleOnSubmitTodo() {
-  //   this.props.todoListStore.addTodoItem(this.newTodoTitle);
-  //   this.newTodoTitle = "";
-  // }
-
-  // @action
-  // handleOnDelete(id) {
-  //   this.props.todoListStore.removeTodoItem(id);
-  // }
 
   async getLocationAsync() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -92,8 +75,7 @@ class Create extends Component {
     });
   }
 
-  @action
-  async handleOnPoiClick = event => {
+  async handleOnPoiClick(event) {
     const { placeId } = event.nativeEvent;
     const queryURL = POI_Detail_URL.replace("place_id_param", placeId);
     const { POIListStore } = this.props;
@@ -113,8 +95,13 @@ class Create extends Component {
       name: Name,
       rating: Rating
     } = POIData;
-    POIListStore.addPOIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating);
-  };
+    POIListStore.addPOIItem(
+      Name,
+      FormattedAddress,
+      FormattedPhoneNumber,
+      Rating
+    );
+  }
 
   render() {
     const {
@@ -161,7 +148,8 @@ class Create extends Component {
         <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modal}>
             <Text style={styles.headerModal}>Location Detail</Text>
-            <Item Name={Name}
+            <Item
+              Name={Name}
               FormattedAddress={FormattedAddress}
               FormattedPhoneNumber={FormattedPhoneNumber}
               Rating={Rating}
@@ -181,11 +169,11 @@ class Create extends Component {
 }
 
 export const CreateScreen = inject(selectPOIListStore)(observer(Create));
-TodoListContainer.wrappedComponent.propTypes = {
+CreateScreen.wrappedComponent.propTypes = {
   POIListStore: PropTypes.object.isRequired
 };
 
-export default TodoListContainer;
+export default CreateScreen;
 
 const styles = StyleSheet.create({
   headerModal: {

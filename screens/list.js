@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { SafeAreaView, View, FlatList, StyleSheet, Text } from "react-native";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import Item from "../components/Item";
-import { selectPOIListStore } from "../selectors/todoListStoreSelectors";
-export default class List extends Component {
+import { selectPOIListStore } from "../selectors/POIListStoreSelector";
+class List extends Component {
   constructor(props) {
     super(props)
     console.log(props)

@@ -1,6 +1,7 @@
 import React from "react";
+import { Provider } from 'mobx-react';
 import { createAppContainer } from "react-navigation";
-import POIListStore from "../stores/POIListStore";
+import POIListStore from "./stores/POIListStore";
 
 import MainNavigator from "./navigations";
 
