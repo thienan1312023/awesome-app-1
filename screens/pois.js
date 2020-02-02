@@ -13,7 +13,7 @@ class POIs extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.paragraph}>
-          You selected {count} nodes
+          You selected {count} node(s)
         </Text>
         <SafeAreaView style={styles.container}>
           <FlatList

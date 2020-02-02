@@ -13,9 +13,11 @@ class Statistic extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.paragraph}>
-          Number of Selected Nodes: {numberOfNodes}
+          Number of Selected Node(s): {numberOfNodes}
         </Text>
-
+        <Text style={styles.paragraph}>
+          Your lastest node
+        </Text>
         <Item
               Name={lastItem.Name}
               FormattedAddress={lastItem.FormattedAddress}
@@ -33,8 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 10,
+    justifyContent: "flex-start",
     backgroundColor: "#ecf0f1"
   },
   paragraph: {

@@ -32,7 +32,7 @@ class Create extends Component {
     isLoading: false,
     isModalVisible: false,
     POIDetail: {
-      name: "ddd",
+      name: "",
       formatted_address: "",
       rating: 0,
       formatted_phone_number: ""
@@ -48,7 +48,15 @@ class Create extends Component {
   };
 
   toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
+    this.setState({
+      isModalVisible: !this.state.isModalVisible,
+      POIDetail: {
+        name: "",
+        formatted_address: "",
+        rating: 0,
+        formatted_phone_number: ""
+      }
+    });
   };
 
   addToList = () => {
@@ -62,12 +70,15 @@ class Create extends Component {
     } = this.state;
     const { POIListStore } = this.props;
 
-    Name && Name.length > 0 && POIListStore.addPOIItem(
-      Name,
-      FormattedAddress,
-      FormattedPhoneNumber,
-      Rating
-    );
+    Name &&
+      Name.length > 0 &&
+      POIListStore.addPOIItem(
+        Name,
+        FormattedAddress,
+        FormattedPhoneNumber,
+        Rating
+      );
+    this.toggleModal();
   };
 
   async getLocationAsync() {
@@ -97,7 +108,6 @@ class Create extends Component {
   async handleOnPoiClick(event) {
     const { placeId } = event.nativeEvent;
     const queryURL = POI_Detail_URL.replace("place_id_param", placeId);
-    // const { POIListStore } = this.props;
     const response = await fetch(queryURL);
     const POIData = await response.json();
     this.setState({
@@ -107,19 +117,6 @@ class Create extends Component {
         ...POIData.result
       }
     });
-
-    // const {
-    //   formatted_address: FormattedAddress,
-    //   formatted_phone_number: FormattedPhoneNumber,
-    //   name: Name,
-    //   rating: Rating
-    // } = POIData.result;
-    // POIListStore.addPOIItem(
-    //   Name,
-    //   FormattedAddress,
-    //   FormattedPhoneNumber,
-    //   Rating
-    // );
   }
 
   render() {
@@ -154,14 +151,12 @@ class Create extends Component {
             <Text>Map region doesn't exist.</Text>
           ) : (
             <MapView
-              style={{ alignSelf: "stretch", height: 400 }}
+              style={{ alignSelf: "stretch", minHeight: 600, minWidth: 350}}
               region={mapRegion}
               onRegionChangeComplete={this.handleMapRegionChange}
               onPoiClick={event => this.handleOnPoiClick(event)}
             />
           )}
-
-          <Text>Location: {this.state.locationResult}</Text>
         </View>
 
         <Modal isVisible={this.state.isModalVisible}>
@@ -173,11 +168,11 @@ class Create extends Component {
               FormattedPhoneNumber={FormattedPhoneNumber}
               Rating={Rating}
             ></Item>
-            <View style={{ paddingTop: 15, paddingBottom: 10 }}>
-              <Button title="Hide modal" onPress={this.toggleModal} />
+            <View style={{ padding: 10 }}>
+              <Button theme="dark" title="Close" overrides={{backgroundColor: "FF7F50"}} onPress={this.toggleModal} />
             </View>
 
-            <View>
+            <View style={{ padding: 10 }}>
               <Button title="Add To List" onPress={this.addToList} />
             </View>
           </View>
@@ -199,7 +194,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    paddingBottom: 15
+    paddingBottom: 15,
+    paddingTop: 15
   },
   container: {
     flex: 1,
@@ -230,7 +226,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
     color: "black",
-    padding: 10,
     minHeight: 200
   }
 });

@@ -9,8 +9,8 @@ import {
 } from "react-native";
 
 const mockLoginAuthen = {
-  _userName: "Test",
-  _password: "test"
+  _userName: "123",
+  _password: "123"
 };
 export default class LoginScreen extends Component {
   constructor(props) {
