@@ -1,34 +1,40 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { Constants } from "expo";
 import { observer, inject } from "mobx-react";
 import { selectPOIListStore } from "../selectors/POIListStoreSelector";
 import Item from "../components/Item";
-class Statistic extends Component {
+
+class POIs extends Component {
   render() {
+    console.log('sssvdg');
     const { POIListStore } = this.props;
     const { POIItems, count } = POIListStore;
-    const numberOfNodes = (POIItems && POIItems.length) || 0;
-    const lastItem = POIItems[POIItems.length - 1];
-
     return (
       <View style={styles.container}>
         <Text style={styles.paragraph}>
-          Number of Selected Nodes: {numberOfNodes}
+          You selected {count} nodes
         </Text>
-
-        <Item
-              Name={lastItem.Name}
-              FormattedAddress={lastItem.FormattedAddress}
-              FormattedPhoneNumber={lastItem.FormattedPhoneNumber}
-              Rating={lastItem.Rating}
-        />
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={POIItems}
+            renderItem={({ item }) => (
+              <Item
+                Name={item.Name}
+                FormattedAddress={item.FormattedAddress}
+                FormattedPhoneNumber={item.FormattedPhoneNumber}
+                Rating={item.Rating}
+              ></Item>
+            )}
+            keyExtractor={item => item.id}
+          />
+        </SafeAreaView>
       </View>
     );
   }
 }
 
-export default inject(selectPOIListStore)(observer(Statistic));
-
+export default inject(selectPOIListStore)(observer(POIs));
 const styles = StyleSheet.create({
   container: {
     flex: 1,

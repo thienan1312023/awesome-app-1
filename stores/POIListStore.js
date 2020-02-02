@@ -3,7 +3,7 @@ import POIItem from "./POIItem";
 
 export class POIListStore {
   @observable POIItems = [];
-
+  @observable count = 0;
   get poiItems() {
     return this.POIItems;
   }
@@ -17,9 +17,9 @@ export class POIListStore {
   addPOIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating) {
     console.log('addPOIItem', Name);
     if (Name && Name.trim().length > 0) {
-      this.POIItems.push(
-        new POIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating)
-      );
+      const item = new POIItem(Name, FormattedAddress, FormattedPhoneNumber, Rating);
+      this.POIItems.push(item);
+      this.count++;
     }
   }
 

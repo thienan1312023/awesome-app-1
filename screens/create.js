@@ -51,6 +51,25 @@ class Create extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
+  addToList = () => {
+    const {
+      POIDetail: {
+        formatted_address: FormattedAddress,
+        formatted_phone_number: FormattedPhoneNumber,
+        name: Name,
+        rating: Rating
+      }
+    } = this.state;
+    const { POIListStore } = this.props;
+
+    Name && Name.length > 0 && POIListStore.addPOIItem(
+      Name,
+      FormattedAddress,
+      FormattedPhoneNumber,
+      Rating
+    );
+  };
+
   async getLocationAsync() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
@@ -78,7 +97,7 @@ class Create extends Component {
   async handleOnPoiClick(event) {
     const { placeId } = event.nativeEvent;
     const queryURL = POI_Detail_URL.replace("place_id_param", placeId);
-    const { POIListStore } = this.props;
+    // const { POIListStore } = this.props;
     const response = await fetch(queryURL);
     const POIData = await response.json();
     this.setState({
@@ -89,18 +108,18 @@ class Create extends Component {
       }
     });
 
-    const {
-      formatted_address: FormattedAddress,
-      formatted_phone_number: FormattedPhoneNumber,
-      name: Name,
-      rating: Rating
-    } = POIData.result;
-    POIListStore.addPOIItem(
-      Name,
-      FormattedAddress,
-      FormattedPhoneNumber,
-      Rating
-    );
+    // const {
+    //   formatted_address: FormattedAddress,
+    //   formatted_phone_number: FormattedPhoneNumber,
+    //   name: Name,
+    //   rating: Rating
+    // } = POIData.result;
+    // POIListStore.addPOIItem(
+    //   Name,
+    //   FormattedAddress,
+    //   FormattedPhoneNumber,
+    //   Rating
+    // );
   }
 
   render() {
@@ -159,7 +178,7 @@ class Create extends Component {
             </View>
 
             <View>
-              <Button title="Add To List" onPress={this.toggleModal} />
+              <Button title="Add To List" onPress={this.addToList} />
             </View>
           </View>
         </Modal>

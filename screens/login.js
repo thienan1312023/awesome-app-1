@@ -4,7 +4,8 @@ import {
   Text,
   TextInput,
   View,
-  StyleSheet
+  StyleSheet,
+  ImageBackground
 } from "react-native";
 
 const mockLoginAuthen = {
@@ -17,41 +18,67 @@ export default class LoginScreen extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      isInit: true,
+      isInCorrectLogin: undefined
     };
   }
 
   onLogin() {
+    this.setState({ isInit: false });
     const { username, password } = this.state;
     const { navigate } = this.props.navigation;
     const { _userName, _password } = mockLoginAuthen;
-    if (username == _userName && password == _password) {
-      console.log('ss', navigate);
-      navigate("SignedIn");
+    if (username !== "" && password !== "") {
+      if (username == _userName && password == _password) {
+        navigate("SignedIn");
+      } else {
+        this.setState({ isInCorrectLogin: true });
+      }
     }
   }
 
   render() {
+    const { username, password, isInit, isInCorrectLogin } = this.state;
     return (
-      <View style={styles.container}>
-        <TextInput
-          value={this.state.username}
-          onChangeText={username => this.setState({ username })}
-          placeholder={"Username"}
-          style={styles.input}
-        />
-        <TextInput
-          value={this.state.password}
-          onChangeText={password => this.setState({ password })}
-          placeholder={"Password"}
-          secureTextEntry={true}
-          style={styles.input}
-        />
-
-        <TouchableOpacity style={styles.input} onPress={this.onLogin.bind(this)}>
-          <Text> Login </Text>
+      <ImageBackground
+        source={require("../assets/background-lock.jpg")}
+        style={styles.container}
+      >
+        <Text style={styles.title}>Quick Places</Text>
+        <View style={styles.userInputField}>
+          <TextInput
+            value={this.state.username}
+            onChangeText={username => this.setState({ username })}
+            placeholder={"Username"}
+            style={styles.input}
+          />
+          {!isInit && username === "" && (
+            <Text style={styles.require}>Username is require!</Text>
+          )}
+        </View>
+        <View style={styles.userInputField}>
+          <TextInput
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+            placeholder={"Password"}
+            secureTextEntry={true}
+            style={styles.input}
+          />
+          {!isInit && password === "" && (
+            <Text style={styles.require}>Password is require!</Text>
+          )}
+        </View>
+        {isInCorrectLogin && (
+          <Text style={styles.require}>UserName or Password is incorrect!</Text>
+        )}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.onLogin.bind(this)}
+        >
+          <Text style={{ textAlign: "center" }}> Login </Text>
         </TouchableOpacity>
-      </View>
+      </ImageBackground>
     );
   }
 }
@@ -61,14 +88,37 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#ecf0f1"
+    width: "100%",
+    height: "100%"
   },
   input: {
-    width: 200,
     height: 44,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "black",
-    marginBottom: 10
+    backgroundColor: "#FFFFFF",
+    padding: 10
+  },
+  require: {
+    color: "#F65E3D",
+    fontSize: 12,
+    fontStyle: "italic"
+  },
+  button: {
+    backgroundColor: "#8FBC8F",
+    width: "90%",
+    height: 44,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center"
+  },
+  title: {
+    color: "#2C3E50",
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 50
+  },
+  userInputField: {
+    width: "90%",
+    paddingTop: 10,
+    paddingBottom: 10
   }
 });

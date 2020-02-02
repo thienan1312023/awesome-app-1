@@ -11,8 +11,10 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 
 //Import all the screens
 import CreateScreen from '../screens/create';
-import ListScreen from '../screens/list';
+//import ListScreen from '../screens/list';
 import StatisticScreen from '../screens/statistic';
+import POIsScreen from '../screens/pois';
+
 
 //Import Custom Sidebar
 // import CustomSidebarMenu from './CustomSidebarMenu';
@@ -58,21 +60,21 @@ const Create_StackNavigator = createStackNavigator({
 });
 
 //Stack Navigator for the Second Option of Navigation Drawer
-const List_StackNavigator = createStackNavigator({
-  //All the screen from the Second Option will be indexed here
-  Second: {
-    screen: ListScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: 'List Screen',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+// const List_StackNavigator = createStackNavigator({
+//   //All the screen from the Second Option will be indexed here
+//   Second: {
+//     screen: ListScreen,
+//     navigationOptions: ({ navigation }) => ({
+//       title: 'List Screen',
+//       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
 
-      headerStyle: {
-        backgroundColor: '#FF9800',
-      },
-      headerTintColor: '#fff',
-    }),
-  },
-});
+//       headerStyle: {
+//         backgroundColor: '#FF9800',
+//       },
+//       headerTintColor: '#fff',
+//     }),
+//   },
+// });
 
 //Stack Navigator for the Third Option of Navigation Drawer
 const Statistic_StackNavigator = createStackNavigator({
@@ -90,6 +92,23 @@ const Statistic_StackNavigator = createStackNavigator({
   },
 });
 
+//Stack Navigator for the Third Option of Navigation Drawer
+const POIs_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  Third: {
+    screen: POIsScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'List screen',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#FF9800',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+
+
 //Drawer Navigator Which will provide the structure of our App
 const DrawerNavigator = createDrawerNavigator(
   {
@@ -100,16 +119,22 @@ const DrawerNavigator = createDrawerNavigator(
         drawerLabel: 'Create Screen',
       },
     },
-    NavListScreen: {
-      screen: List_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'List Screen',
-      },
-    },
+    // NavListScreen: {
+    //   screen: List_StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: 'List Screen',
+    //   },
+    // },
     NavStatisticScreen: {
       screen: Statistic_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Statistic Screen',
+      },
+    },
+    NavListScreen: {
+      screen: POIs_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'List Screen',
       },
     },
   },

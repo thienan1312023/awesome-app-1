@@ -16,8 +16,8 @@ const Item = ({ Name, FormattedAddress, FormattedPhoneNumber, Rating }) => {
 export default Item;
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
+    backgroundColor: "#B0C4DE",
+    padding: 10,
     marginVertical: 8,
     marginHorizontal: 16
   }
